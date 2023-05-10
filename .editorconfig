@@ -1,0 +1,22 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_size = 4
+indent_style = tab
+insert_final_newline = false
+max_line_length = 120
+tab_width = 4
+
+[*.neon]
+indent_style = space
+
+[{*.ctp,*.hphp,*.inc,*.module,*.php,*.php4,*.php5,*.phtml,*.stub}]
+indent_style = space
+
+[{*.markdown,*.md}]
+indent_style = space
+
+[{*.yaml,*.yml,*.yml{% endif %}}]
+indent_size = 2
