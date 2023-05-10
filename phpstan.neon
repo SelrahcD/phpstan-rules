@@ -1,5 +1,7 @@
 parameters:
-	level: max
-	paths:
-		- src
-		- tests
+    level: max
+    paths:
+        - src
+        - tests
+    excludePaths:
+        - tests/*/data/*
