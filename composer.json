@@ -1,0 +1,21 @@
+{
+    "name": "selrahcd/phpstan-rules",
+    "description": "Set of PHPStan rules",
+    "type": "library",
+    "require-dev": {
+        "phpunit/phpunit": "^10.1",
+        "phpstan/phpstan": "^1.10"
+    },
+    "autoload": {
+        "psr-4": {
+            "Selrahcd\\PhpstanRules\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "SelrahcD",
+            "email": "c.desneuf@gmail.com"
+        }
+    ],
+    "require": {}
+}
