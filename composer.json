@@ -11,6 +11,11 @@
             "Selrahcd\\PhpstanRules\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Selrahcd\\PhpstanRules\\": "tests/"
+        }
+    },
     "authors": [
         {
             "name": "SelrahcD",
