@@ -17,17 +17,6 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
         '\somethingUsedOnce',
     ];
 
-    public static function getAdditionalConfigFiles(): array
-    {
-        return array_merge(
-            parent::getAdditionalConfigFiles(),
-            [
-                __DIR__ . '/data/config.neon',
-            ]
-        );
-
-    }
-
     protected function getRule(): Rule
     {
         return new CountFuncCallUsageRule(
