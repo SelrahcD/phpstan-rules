@@ -8,6 +8,7 @@ use PhpParser\Node;
 use PHPStan\Analyser\Scope;
 use PHPStan\Node\CollectedDataNode;
 use PHPStan\Rules\Rule;
+use PHPStan\Rules\RuleError;
 use PHPStan\Rules\RuleErrorBuilder;
 
 /**
@@ -50,20 +51,31 @@ final class CountFuncCallUsageRule implements Rule
             }
         }
 
+        return $this->generateErrors($funcCallCount);
+    }
+
+    /**
+     * @param array<string, int> $funcCallCount
+     * @return (string|RuleError)[] errors
+     */
+    private function generateErrors(array $funcCallCount): array
+    {
         $errors = [];
 
         foreach ($this->watchedFuncCalls as $checkedFuncCall) {
             $callCount = $funcCallCount[$checkedFuncCall];
 
-            if(!array_key_exists($checkedFuncCall, $funcCallCount)) {
+            if (!array_key_exists($checkedFuncCall, $funcCallCount)) {
                 continue;
             }
 
-            $errors[] = RuleErrorBuilder::message(sprintf(
-                'Function %s is called %d time(s).',
-                $checkedFuncCall,
-                $callCount,
-            ))->file('index.php')->line(0)->build();
+            $errors[] = RuleErrorBuilder::message(
+                sprintf(
+                    'Function %s is called %d time(s).',
+                    $checkedFuncCall,
+                    $callCount,
+                )
+            )->file('index.php')->line(0)->build();
         }
 
         return $errors;
