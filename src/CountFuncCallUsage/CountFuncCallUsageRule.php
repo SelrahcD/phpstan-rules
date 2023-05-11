@@ -62,17 +62,17 @@ final class CountFuncCallUsageRule implements Rule
     {
         $errors = [];
 
-        foreach ($this->watchedFuncCalls as $checkedFuncCall) {
-            $callCount = $funcCallCount[$checkedFuncCall];
+        foreach ($this->watchedFuncCalls as $watchedFuncCall) {
+            $callCount = $funcCallCount[$watchedFuncCall];
 
-            if (!array_key_exists($checkedFuncCall, $funcCallCount)) {
+            if (!array_key_exists($watchedFuncCall, $funcCallCount)) {
                 continue;
             }
 
             $errors[] = RuleErrorBuilder::message(
                 sprintf(
                     'Function %s is called %d time(s).',
-                    $checkedFuncCall,
+                    $watchedFuncCall,
                     $callCount,
                 )
             )->file('index.php')->line(0)->build();
