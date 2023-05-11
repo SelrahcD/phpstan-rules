@@ -7,4 +7,6 @@ namespace Selrahcd\PhpstanRules\CountFuncCallUsage;
 interface UsageCountStore
 {
     public function countFor(string $funcCall): int;
+
+    public function storeCountFor(string $watchedFuncCall, int $callCount): void;
 }

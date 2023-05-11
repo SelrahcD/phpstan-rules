@@ -6,6 +6,9 @@ namespace Selrahcd\PhpstanRules\CountFuncCallUsage;
 
 final class InMemoryUsageCountStore implements UsageCountStore
 {
+    /**
+     * @param array<string, int> $usageByFuncCall
+     */
     public function __construct(
         public array $usageByFuncCall = [])
     {
@@ -18,5 +21,10 @@ final class InMemoryUsageCountStore implements UsageCountStore
         }
 
         return 0;
+    }
+
+    public function storeCountFor(string $watchedFuncCall, int $callCount): void
+    {
+       $this->usageByFuncCall[$watchedFuncCall] =  $callCount;
     }
 }

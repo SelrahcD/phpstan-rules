@@ -63,6 +63,7 @@ final class CountFuncCallUsageRule implements Rule
             $callCount = $funcCallCount[$watchedFuncCall];
 
             $previousCount = $this->usageCountStore->countFor($watchedFuncCall);
+            $this->usageCountStore->storeCountFor($watchedFuncCall, $callCount);
 
             if($previousCount >= $callCount) {
                 continue;

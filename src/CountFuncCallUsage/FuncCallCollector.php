@@ -13,6 +13,9 @@ use PHPStan\Collectors\Collector;
  */
 final class FuncCallCollector implements Collector
 {
+    /**
+     * @param string[] $watchedFuncCalls
+     */
     public function __construct(
         private readonly array $watchedFuncCalls
     )
