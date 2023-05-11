@@ -15,6 +15,9 @@ use PHPStan\Rules\RuleErrorBuilder;
  */
 final class CountFuncCallUsageRule implements Rule
 {
+    /**
+     * @param string[] $watchedFuncCalls
+     */
     public function __construct(
         private array $watchedFuncCalls)
     {
@@ -28,8 +31,6 @@ final class CountFuncCallUsageRule implements Rule
 
     public function processNode(Node $node, Scope $scope): array
     {
-        $checkedFuncCalls = $this->watchedFuncCalls;
-
         $countFuncCallUsageRuleData = $node->get(FuncCallCollector::class);
 
         $funcCallCount = [];
@@ -37,7 +38,7 @@ final class CountFuncCallUsageRule implements Rule
         foreach ($countFuncCallUsageRuleData as $declarations) {
             foreach ($declarations as [$name, $line]) {
 
-                if(!in_array($name, $checkedFuncCalls)) {
+                if(!in_array($name, $this->watchedFuncCalls, true)) {
                     continue;
                 }
 
@@ -51,7 +52,7 @@ final class CountFuncCallUsageRule implements Rule
 
         $errors = [];
 
-        foreach ($checkedFuncCalls as $checkedFuncCall) {
+        foreach ($this->watchedFuncCalls as $checkedFuncCall) {
             $callCount = $funcCallCount[$checkedFuncCall];
 
             if(!array_key_exists($checkedFuncCall, $funcCallCount)) {
