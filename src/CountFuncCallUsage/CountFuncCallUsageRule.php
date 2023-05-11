@@ -78,9 +78,10 @@ final class CountFuncCallUsageRule implements Rule
 
             $errors[] = RuleErrorBuilder::message(
                 sprintf(
-                    'Function %s is called %d time(s).',
+                    'Function %s is called %d time(s), was called %s time(s) before.',
                     $watchedFuncCall,
                     $callCount,
+                    $previousCount
                 )
             )->file('index.php')->line(0)->build();
         }

@@ -43,8 +43,6 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
                 }
             },
             [
-            '\is_array',
-            '\is_dir',
             '\somethingUsedTwice',
             '\somethingUsedOnce',
             ]);
@@ -76,65 +74,14 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
     /**
      * @test
      */
-    public function do_not_show_error_when_is_array_is_not_called(): void
+    public function show_error_when_usage_count_increased(): void
     {
-        $this->analyse([__DIR__ . '/data/NoUsageOfIsArray/Example.php'], []);
-    }
-
-    /**
-     * @test
-     */
-    public function show_error_when_is_array_is_called_once(): void
-    {
-        $this->analyse([__DIR__ . '/data/OneUsageOfIsArray/Example.php'],  [
-            [
-            <<<'EOE'
-            Function \is_array is called 1 time(s).
-            EOE, 0
-            ],
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function show_error_when_is_array_is_called_more_than_once(): void
-    {
-        $this->analyse([__DIR__ . '/data/TwoUsagesOfIsArray/Example.php'],  [
+        $this->analyse([__DIR__ . '/data/UsageCountIncreased/Example.php'],  [
             [
                 <<<'EOE'
-            Function \is_array is called 2 time(s).
+            Function \somethingUsedOnce is called 2 time(s), was called 1 time(s) before.
             EOE, 0
             ],
         ]);
     }
-
-    /**
-     * @test
-     */
-    public function do_not_count_others_FuncCall_than_in_array(): void
-    {
-        $this->analyse([__DIR__ . '/data/TwoUsagesOfIsArrayAndUsageOfOthersFuncCalls/Example.php'],  [
-            [
-                <<<'EOE'
-            Function \is_array is called 2 time(s).
-            EOE, 0
-            ],
-        ]);
-    }
-
-    /**
-     * @test
-     */
-    public function show_error_when_is_dir_is_called_once(): void
-    {
-        $this->analyse([__DIR__ . '/data/OneUsageOfIsDir/Example.php'],  [
-            [
-                <<<'EOE'
-            Function \is_dir is called 1 time(s).
-            EOE, 0
-            ],
-        ]);
-    }
-
 }
