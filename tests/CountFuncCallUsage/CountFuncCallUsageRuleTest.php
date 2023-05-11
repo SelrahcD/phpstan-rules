@@ -20,22 +20,10 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
     protected function getRule(): Rule
     {
         return new CountFuncCallUsageRule(
-            new class implements UsageCountStore {
-
-                const USAGE_COUNTS = [
-                    '\somethingUsedTwice' => 2,
-                    '\somethingUsedOnce' => 1,
-                ];
-
-                public function countFor(string $funcCall): int
-                {
-                    if(array_key_exists($funcCall, self::USAGE_COUNTS)) {
-                        return self::USAGE_COUNTS[$funcCall];
-                    }
-
-                    return 0;
-                }
-            },
+          new InMemoryUsageCountStore([
+              '\somethingUsedTwice' => 2,
+              '\somethingUsedOnce' => 1,
+          ]),
             self::WATCHED_FUNC_CALLS
         );
     }
