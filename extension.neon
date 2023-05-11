@@ -1,0 +1,11 @@
+parameters:
+    watched_funcCalls: []
+
+services:
+    -
+        class: Selrahcd\PhpstanRules\CountFuncCallUsage\CountFuncCallUsageRule
+        arguments:
+            watchedFuncCalls: %watched_funcCalls%
+
+parametersSchema:
+	watched_funcCalls: listOf(string())

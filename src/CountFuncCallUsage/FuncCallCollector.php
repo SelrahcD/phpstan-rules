@@ -14,10 +14,6 @@ use PHPStan\Collectors\Collector;
 final class FuncCallCollector implements Collector
 {
 
-    public function __construct()
-    {
-    }
-
     public function getNodeType(): string
     {
        return Node\Expr\FuncCall::class;

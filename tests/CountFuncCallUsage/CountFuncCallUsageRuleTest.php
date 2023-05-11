@@ -12,10 +12,20 @@ use PHPStan\Testing\RuleTestCase;
  */
 final class CountFuncCallUsageRuleTest extends RuleTestCase
 {
+    public static function getAdditionalConfigFiles(): array
+    {
+        return array_merge(
+            parent::getAdditionalConfigFiles(),
+            [
+                __DIR__ . '/data/config.neon',
+            ]
+        );
+
+    }
 
     protected function getRule(): Rule
     {
-        return new CountFuncCallUsageRule();
+        return new CountFuncCallUsageRule(['\is_array', '\is_dir']);
     }
 
     protected function getCollectors(): array
