@@ -60,7 +60,7 @@ final class CountFuncCallUsageRule implements Rule
         $errors = [];
 
         foreach ($this->watchedFuncCalls as $watchedFuncCall) {
-            $callCount = $funcCallCount[$watchedFuncCall];
+            $callCount = $funcCallCount[$watchedFuncCall] ?? 0;
 
             $previousCount = $this->usageCountStore->countFor($watchedFuncCall);
             $this->usageCountStore->storeCountFor($watchedFuncCall, $callCount);

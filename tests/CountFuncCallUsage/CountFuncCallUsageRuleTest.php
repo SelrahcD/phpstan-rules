@@ -15,15 +15,24 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
     const WATCHED_FUNC_CALLS = [
         '\somethingUsedTwice',
         '\somethingUsedOnce',
+        '\notCountedYet',
+        '\watchedButNotUsed'
     ];
+
+    private UsageCountStore&InMemoryUsageCountStore $usageCountStore;
+
+    protected function setUp(): void
+    {
+        $this->usageCountStore = new InMemoryUsageCountStore([
+            '\somethingUsedTwice' => 2,
+            '\somethingUsedOnce' => 1,
+        ]);
+    }
 
     protected function getRule(): Rule
     {
         return new CountFuncCallUsageRule(
-          new InMemoryUsageCountStore([
-              '\somethingUsedTwice' => 2,
-              '\somethingUsedOnce' => 1,
-          ]),
+            $this->usageCountStore,
             self::WATCHED_FUNC_CALLS
         );
     }
@@ -63,5 +72,42 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
             EOE, 0
             ],
         ]);
+    }
+
+    /**
+     * @test
+     */
+    public function stores_0_usage_count_if_watched_funcCall_is_not_used(): void
+    {
+        $this->analyse([__DIR__ . '/data/WatchedButNotUsed/Example.php'], [
+            [
+                <<<'EOE'
+            Function \notCountedYet is called 2 time(s), was called 0 time(s) before.
+            EOE, 0
+            ],
+        ]);
+
+        $this->assertEquals(0, $this->usageCountStore->countFor('\watchedButNoUsed'));
+    }
+
+    /**
+     * @test
+     */
+    public function stores_funcCall_usage_counts(): void
+    {
+        $this->analyse([__DIR__ . '/data/NotCountedYet/Example.php'], [
+            [
+                <<<'EOE'
+            Function \notCountedYet is called 2 time(s), was called 0 time(s) before.
+            EOE, 0
+            ],
+        ]);
+
+        $this->assertEquals([
+            '\somethingUsedTwice' => 1,
+            '\somethingUsedOnce' => 1,
+            '\notCountedYet' => 2,
+            '\watchedButNotUsed' => 0,
+        ], $this->usageCountStore->usageByFuncCall);
     }
 }
