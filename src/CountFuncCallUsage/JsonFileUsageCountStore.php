@@ -6,18 +6,15 @@ namespace Selrahcd\PhpstanRules\CountFuncCallUsage;
 
 final class JsonFileUsageCountStore implements UsageCountStore
 {
-    private string $fileName;
-
-    public function __construct()
-    {
-        $this->fileName = __DIR__ . '/CountFunCallUsage.json';
+    public function __construct(private readonly string $fileName,
+    ) {
     }
 
     public function countFor(string $funcCall): int
     {
         $decodedJson = $this->readDataFromFile();
 
-        if(!array_key_exists($funcCall, $decodedJson)) {
+        if (!array_key_exists($funcCall, $decodedJson)) {
             return 0;
         }
 
