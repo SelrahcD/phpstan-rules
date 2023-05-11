@@ -14,6 +14,11 @@ services:
             usageCountStore: @InMemoryUsageCountStore
             watchedFuncCalls: %watched_funcCalls%
 
+    -
+          class: Selrahcd\PhpstanRules\CountFuncCallUsage\FuncCallCollector
+          arguments:
+              watchedFuncCalls: %watched_funcCalls%
+
 
 
 parametersSchema:

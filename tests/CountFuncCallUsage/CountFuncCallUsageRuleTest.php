@@ -12,6 +12,11 @@ use PHPStan\Testing\RuleTestCase;
  */
 final class CountFuncCallUsageRuleTest extends RuleTestCase
 {
+    const WATCHED_FUNC_CALLS = [
+        '\somethingUsedTwice',
+        '\somethingUsedOnce',
+    ];
+
     public static function getAdditionalConfigFiles(): array
     {
         return array_merge(
@@ -42,16 +47,14 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
                     return 0;
                 }
             },
-            [
-            '\somethingUsedTwice',
-            '\somethingUsedOnce',
-            ]);
+            self::WATCHED_FUNC_CALLS
+        );
     }
 
     protected function getCollectors(): array
     {
         return [
-            new FuncCallCollector(),
+            new FuncCallCollector(self::WATCHED_FUNC_CALLS),
         ];
     }
 

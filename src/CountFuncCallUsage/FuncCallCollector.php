@@ -13,6 +13,11 @@ use PHPStan\Collectors\Collector;
  */
 final class FuncCallCollector implements Collector
 {
+    public function __construct(
+        private readonly array $watchedFuncCalls
+    )
+    {
+    }
 
     public function getNodeType(): string
     {
@@ -27,6 +32,12 @@ final class FuncCallCollector implements Collector
             return null;
         }
 
-        return [$nodeName->toCodeString(), $node->getLine()];
+        $funcCallName = $nodeName->toCodeString();
+
+        if (!in_array($funcCallName, $this->watchedFuncCalls, true)) {
+            return null;
+        }
+
+        return [$funcCallName, $node->getLine()];
     }
 }

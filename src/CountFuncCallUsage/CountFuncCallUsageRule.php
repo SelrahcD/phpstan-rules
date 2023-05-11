@@ -40,10 +40,6 @@ final class CountFuncCallUsageRule implements Rule
         foreach ($countFuncCallUsageRuleData as $declarations) {
             foreach ($declarations as [$name, $line]) {
 
-                if(!in_array($name, $this->watchedFuncCalls, true)) {
-                    continue;
-                }
-
                 if(!array_key_exists($name, $funcCallCount)) {
                     $funcCallCount[$name] = 0;
                 }
@@ -65,10 +61,6 @@ final class CountFuncCallUsageRule implements Rule
 
         foreach ($this->watchedFuncCalls as $watchedFuncCall) {
             $callCount = $funcCallCount[$watchedFuncCall];
-
-            if (!array_key_exists($watchedFuncCall, $funcCallCount)) {
-                continue;
-            }
 
             $previousCount = $this->usageCountStore->countFor($watchedFuncCall);
 
