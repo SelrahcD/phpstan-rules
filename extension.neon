@@ -3,9 +3,18 @@ parameters:
 
 services:
     -
+        class: Selrahcd\PhpstanRules\CountFuncCallUsage\InMemoryUsageCountStore
+
+    InMemoryUsageCountStore:
+        class: Selrahcd\PhpstanRules\CountFuncCallUsage\InMemoryUsageCountStore
+
+    -
         class: Selrahcd\PhpstanRules\CountFuncCallUsage\CountFuncCallUsageRule
         arguments:
+            usageCountStore: @InMemoryUsageCountStore
             watchedFuncCalls: %watched_funcCalls%
+
+
 
 parametersSchema:
 	watched_funcCalls: listOf(string())

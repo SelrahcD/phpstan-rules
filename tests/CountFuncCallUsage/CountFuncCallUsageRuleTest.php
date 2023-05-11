@@ -25,7 +25,29 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
 
     protected function getRule(): Rule
     {
-        return new CountFuncCallUsageRule(['\is_array', '\is_dir']);
+        return new CountFuncCallUsageRule(
+            new class implements UsageCountStore {
+
+                const USAGE_COUNTS = [
+                    '\somethingUsedTwice' => 2,
+                    '\somethingUsedOnce' => 1,
+                ];
+
+                public function countFor(string $funcCall): int
+                {
+                    if(array_key_exists($funcCall, self::USAGE_COUNTS)) {
+                        return self::USAGE_COUNTS[$funcCall];
+                    }
+
+                    return 0;
+                }
+            },
+            [
+            '\is_array',
+            '\is_dir',
+            '\somethingUsedTwice',
+            '\somethingUsedOnce',
+            ]);
     }
 
     protected function getCollectors(): array
@@ -35,6 +57,21 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
         ];
     }
 
+    /**
+     * @test
+     */
+    public function do_not_show_error_if_func_call_usage_count_didnt_increase(): void
+    {
+        $this->analyse([__DIR__ . '/data/UsageCountStayedTheSame/Example.php'], []);
+    }
+
+    /**
+     * @test
+     */
+    public function do_not_show_error_if_func_call_usage_count_decreased(): void
+    {
+        $this->analyse([__DIR__ . '/data/UsageCountDecreased/Example.php'], []);
+    }
 
     /**
      * @test
@@ -81,6 +118,20 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
             [
                 <<<'EOE'
             Function \is_array is called 2 time(s).
+            EOE, 0
+            ],
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function show_error_when_is_dir_is_called_once(): void
+    {
+        $this->analyse([__DIR__ . '/data/OneUsageOfIsDir/Example.php'],  [
+            [
+                <<<'EOE'
+            Function \is_dir is called 1 time(s).
             EOE, 0
             ],
         ]);

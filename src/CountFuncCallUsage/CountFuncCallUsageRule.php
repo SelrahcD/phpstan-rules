@@ -20,6 +20,7 @@ final class CountFuncCallUsageRule implements Rule
      * @param string[] $watchedFuncCalls
      */
     public function __construct(
+        private readonly UsageCountStore $usageCountStore,
         private readonly array $watchedFuncCalls)
     {
     }
@@ -66,6 +67,12 @@ final class CountFuncCallUsageRule implements Rule
             $callCount = $funcCallCount[$watchedFuncCall];
 
             if (!array_key_exists($watchedFuncCall, $funcCallCount)) {
+                continue;
+            }
+
+            $previousCount = $this->usageCountStore->countFor($watchedFuncCall);
+
+            if($previousCount >= $callCount) {
                 continue;
             }
 
