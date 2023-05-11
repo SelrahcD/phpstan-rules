@@ -19,7 +19,7 @@ final class CountFuncCallUsageRule implements Rule
      * @param string[] $watchedFuncCalls
      */
     public function __construct(
-        private array $watchedFuncCalls)
+        private readonly array $watchedFuncCalls)
     {
     }
 
