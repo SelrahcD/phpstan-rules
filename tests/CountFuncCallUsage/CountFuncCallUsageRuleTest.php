@@ -44,6 +44,15 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
         ];
     }
 
+    public static function getAdditionalConfigFiles(): array
+    {
+        return array_merge(parent::getAdditionalConfigFiles(), [
+            __DIR__ . '/../../extension.neon',
+            __DIR__ . '/data/config.neon',
+        ]);
+    }
+
+
     /**
      * @test
      */
