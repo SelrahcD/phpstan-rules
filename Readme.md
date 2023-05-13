@@ -3,6 +3,29 @@
 A set of useful PHPStan rules
 
 
+## Installation
+
+To use this extension, require it in [Composer](https://getcomposer.org/):
+
+```
+composer require --dev selrahcd/phpstan-rules
+```
+
+If you also install [phpstan/extension-installer](https://github.com/phpstan/extension-installer) then you're all set!
+
+<details>
+  <summary>Manual installation</summary>
+
+If you don't want to use `phpstan/extension-installer`, include extension.neon in your project's PHPStan config:
+
+```
+includes:
+    - vendor/phpstan/phpstan-mockery/extension.neon
+```
+</details>
+
+
+
 ## Rules
 
 ## DisallowIsArrayFunctionCall
@@ -24,3 +47,5 @@ parameters:
 
 Will warn you if you start using more than 4 calls to `\is_array`.
 You can add as many functions to watch as you want.
+
+
