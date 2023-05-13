@@ -4,8 +4,5 @@ includes:
 parameters:
     watched_funcCalls:
         watched:
-            - \is_array`
+            '\is_array': 4
 
-services:
-    UsageCountStore:
-        class: Selrahcd\PhpstanRules\CountFuncCallUsage\InMemoryUsageCountStore

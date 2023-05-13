@@ -9,7 +9,7 @@ parameters:
 
 parametersSchema:
     watched_funcCalls: structure([
-        watched: list(string()),
+        watched: arrayOf(int()),
         storage: structure([
             implementation: string(),
             json: structure([
@@ -20,16 +20,9 @@ parametersSchema:
 
 services:
 
-    UsageCountStore: @JsonFileUsageCountStore
-
-    JsonFileUsageCountStore:
-        class: Selrahcd\PhpstanRules\CountFuncCallUsage\JsonFileUsageCountStore
-        arguments:
-            fileName: %watched_funcCalls.storage.json.file%
     -
         class: Selrahcd\PhpstanRules\CountFuncCallUsage\CountFuncCallUsageRule
         arguments:
-            usageCountStore: @UsageCountStore
             watchedFuncCalls: %watched_funcCalls.watched%
 
     -

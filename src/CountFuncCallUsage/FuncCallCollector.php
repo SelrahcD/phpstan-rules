@@ -14,12 +14,18 @@ use PHPStan\Collectors\Collector;
 final class FuncCallCollector implements Collector
 {
     /**
-     * @param string[] $watchedFuncCalls
+     * @var string[]
+     */
+    private $watchFuncCallNames;
+
+    /**
+     * @param array<string, int> $watchedFuncCalls
      */
     public function __construct(
         private readonly array $watchedFuncCalls
     )
     {
+        $this->watchFuncCallNames = array_keys($this->watchedFuncCalls);
     }
 
     public function getNodeType(): string
@@ -37,7 +43,7 @@ final class FuncCallCollector implements Collector
 
         $funcCallName = $nodeName->toCodeString();
 
-        if (!in_array($funcCallName, $this->watchedFuncCalls, true)) {
+        if (!in_array($funcCallName, $this->watchFuncCallNames, true)) {
             return null;
         }
 

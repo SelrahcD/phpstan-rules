@@ -13,26 +13,15 @@ use PHPStan\Testing\RuleTestCase;
 final class CountFuncCallUsageRuleTest extends RuleTestCase
 {
     const WATCHED_FUNC_CALLS = [
-        '\somethingUsedTwice',
-        '\somethingUsedOnce',
-        '\notCountedYet',
-        '\watchedButNotUsed'
+        '\somethingUsedTwice' => 2,
+        '\somethingUsedOnce' => 1,
+        '\notCountedYet' => 0,
+        '\watchedButNotUsed' => 0,
     ];
-
-    private UsageCountStore&InMemoryUsageCountStore $usageCountStore;
-
-    protected function setUp(): void
-    {
-        $this->usageCountStore = new InMemoryUsageCountStore([
-            '\somethingUsedTwice' => 2,
-            '\somethingUsedOnce' => 1,
-        ]);
-    }
 
     protected function getRule(): Rule
     {
         return new CountFuncCallUsageRule(
-            $this->usageCountStore,
             self::WATCHED_FUNC_CALLS
         );
     }
@@ -82,5 +71,4 @@ final class CountFuncCallUsageRuleTest extends RuleTestCase
             ],
         ]);
     }
-
 }

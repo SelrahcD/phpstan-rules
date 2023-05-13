@@ -17,12 +17,18 @@ use PHPStan\Rules\RuleErrorBuilder;
 final class CountFuncCallUsageRule implements Rule
 {
     /**
-     * @param string[] $watchedFuncCalls
+     * @var string[]
+     */
+    private array $watchFuncCallNames;
+
+    /**
+     * @param array<string, int> $watchedFuncCalls
      */
     public function __construct(
-        private readonly UsageCountStore $usageCountStore,
-        private readonly array $watchedFuncCalls)
+        private readonly array $watchedFuncCalls
+    )
     {
+        $this->watchFuncCallNames = array_keys($this->watchedFuncCalls);
     }
 
 
@@ -59,10 +65,10 @@ final class CountFuncCallUsageRule implements Rule
     {
         $errors = [];
 
-        foreach ($this->watchedFuncCalls as $watchedFuncCall) {
+        foreach ($this->watchFuncCallNames as $watchedFuncCall) {
             $callCount = $funcCallCount[$watchedFuncCall] ?? 0;
 
-            $previousCount = $this->usageCountStore->countFor($watchedFuncCall);
+            $previousCount = $this->getPreviousUsageCount($watchedFuncCall);
 
             if($previousCount >= $callCount) {
                 continue;
@@ -79,5 +85,10 @@ final class CountFuncCallUsageRule implements Rule
         }
 
         return $errors;
+    }
+
+    protected function getPreviousUsageCount(string $watchedFuncCall): int
+    {
+        return $this->watchedFuncCalls[$watchedFuncCall] ??0;
     }
 }
