@@ -22,5 +22,12 @@
             "name": "SelrahcD",
             "email": "c.desneuf@gmail.com"
         }
-    ]
+    ],
+	"extra": {
+		"phpstan": {
+			"includes": [
+				"extension.neon"
+			]
+		}
+	}
 }
