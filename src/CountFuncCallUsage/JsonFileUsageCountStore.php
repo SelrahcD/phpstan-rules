@@ -21,15 +21,6 @@ final class JsonFileUsageCountStore implements UsageCountStore
         return $decodedJson[$funcCall];
     }
 
-    public function storeCountFor(string $watchedFuncCall, int $callCount): void
-    {
-        $decodedJson = $this->readDataFromFile();
-
-        $decodedJson[$watchedFuncCall] = $callCount;
-
-        $this->storeDataInFile($decodedJson);
-    }
-
     /**
      * @return array<string, int>
      */
@@ -46,15 +37,5 @@ final class JsonFileUsageCountStore implements UsageCountStore
         assert(is_array($decodedData));
 
         return $decodedData;
-    }
-
-    /**
-     * @param array<string, int> $decodedJson
-     */
-    private function storeDataInFile(array $decodedJson): void
-    {
-        $encodedJson = json_encode($decodedJson);
-
-        file_put_contents($this->fileName, $encodedJson);
     }
 }

@@ -25,16 +25,4 @@ class JsonFileUsageCountStoreTest extends TestCase
 
         $this->assertEquals(0, $jsonFileUsageCountStore->countFor('\bla'));
     }
-
-    /**
-     * @test
-     */
-    public function returns_previously_stored_count(): void
-    {
-        $jsonFileUsageCountStore = new JsonFileUsageCountStore(self::FILE_NAME);
-
-        $jsonFileUsageCountStore->storeCountFor('\plop', 17);
-
-        $this->assertEquals(17, $jsonFileUsageCountStore->countFor('\plop'));
-    }
 }
